@@ -1,12 +1,33 @@
 from fastapi import FastAPI
 from decouple import config
 import requests
+from fastapi.middleware.cors import CORSMiddleware
 
 app= FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://v35900.vps-kinghost.net",
+    "https://v35900.vps-kinghost.net"
+    "https://localhost",
+    "http://localhost",
+    "http://localhost:5000",
+    "http://191.252.210.233",
+    "https://191.252.210.233"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def ROOT():
     return {'mensagem':'home'}
+
 
 @app.post("/cnpj")
 def CNPJ(cnpj:int):
