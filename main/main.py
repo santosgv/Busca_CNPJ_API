@@ -6,14 +6,15 @@ from fastapi.middleware.cors import CORSMiddleware
 app= FastAPI()
 
 origins = [
-    "*"
+    "*",
+    "https://meicerto.com.br/"
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
+    allow_credentials=False,
+    allow_methods=["GET"],
     allow_headers=["*"],
 )
 
