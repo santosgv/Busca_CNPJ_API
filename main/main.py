@@ -7,7 +7,8 @@ app= FastAPI()
 
 origins = [
     "*",
-    "https://meicerto.com.br/"
+    "https://meicerto.com.br:80",
+    "http://meicerto.com.br:80"
 ]
 
 app.add_middleware(
