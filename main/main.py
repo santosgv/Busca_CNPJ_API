@@ -22,7 +22,7 @@ def ROOT():
     return {'mensagem':'home'}
 
 
-@app.post("/cnpj")
+@app.get("/{cnpj}")
 def CNPJ(cnpj:int):
     cnpj = cnpj
     url = 'https://api.infosimples.com/api/v2/consultas/receita-federal/simples-dasn'
