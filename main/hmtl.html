@@ -1,0 +1,75 @@
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script>$(document).ready(function() {
+
+    function limpa_formulário_cep() {
+        // Limpa valores do formulário de cep.
+        $("#wpforms-519-field_3").val("");
+        //$("#bairro").val("");
+        $("#wpforms-519-field_18").val("");
+    }
+
+    //Quando o campo cep perde o foco.
+    $("#wpforms-519-field_1").blur(function() {
+        //Nova variável "cep" somente com dígitos.
+        var cep = $(this).val().replace(/D/g, '');
+
+        //Verifica se campo cep possui valor informado.
+        if (cep != "") {
+
+            //Expressão regular para validar o CEP.
+            var validacep = /^[0-9]{14}$/;
+
+            //Valida o formato do CEP.
+            if(validacep.test(cep)) {
+
+                //Preenche os campos com "..." enquanto consulta webservice.
+                $("#wpforms-519-field_3").val("..."); // razao social
+               // $("#bairro").val("...");
+                $("#wpforms-519-field_18").val("..."); // ano
+
+
+                //Consulta o webservice viacep.com.br/
+                $.getJSON("http://191.252.210.233:5000/"+ cep, function(dados) {
+
+                    if (!("erro" in dados)) {
+                        //Atualiza os campos com os valores da consulta.
+                        $("#wpforms-519-field_1").val(dados.cnpj);
+                        $("#wpforms-519-field_3").val(dados.razao_social);
+
+                        const info =Object.entries(dados.ano);  
+                        console.log(info);                      
+                        $("#wpforms-519-field_18").innerHTML=info;
+
+                    } //end if.
+                    else {
+                        //CEP pesquisado não foi encontrado.
+                        limpa_formulário_cep();
+                        alert("CNPJ não encontrado.");
+                    }
+                });
+            } //end if.
+            else {
+                //cep é inválido.
+                limpa_formulário_cep();
+                alert("Formato de CNPJ inválido.");
+            }
+        } //end if.
+        else {
+            //cep sem valor, limpa formulário.
+            limpa_formulário_cep();
+        }
+    });
+});
+
+
+
+</script>
+
+
+
+45244997000163
